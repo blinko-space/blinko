@@ -88,6 +88,7 @@ export class UserStore implements User, Store {
         userStore.userInfo.call(Number(this.id)).then(async () => {
           const config = userStore.blinko.config.value || await userStore.blinko.config.getOrCall();
           setTheme(config?.theme ?? 'light')
+          document.documentElement.setAttribute('data-color-mode', config?.theme ?? 'light')
           RootStore.Get(BaseStore).changeLanugage(i18n, config?.language ?? 'en');
         });
       }

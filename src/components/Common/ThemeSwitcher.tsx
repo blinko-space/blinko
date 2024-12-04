@@ -28,6 +28,7 @@ const ThemeSwitcher = observer(({ onChange }: ThemeSwitcherProps) => {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         await onChange?.(newTheme);
         setTheme(newTheme);
+        document.documentElement.setAttribute('data-color-mode', newTheme)
       }}
     >
       {isMounted && theme === 'dark' ? <Icon icon="line-md:sun-rising-loop" width="24" height="24" /> : <Icon icon="line-md:moon-alt-loop" width="24" height="24" />}

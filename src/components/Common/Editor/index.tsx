@@ -1,8 +1,8 @@
-import '@mdxeditor/editor/style.css';
-import '@/styles/editor.css';
-import { RootStore } from '@/store';
+import dynamic from 'next/dynamic';
+import '@uiw/react-markdown-editor/markdown-editor.css';
+import '@uiw/react-markdown-preview/markdown.css';
+import '@/styles/blinko-markdown-editor.css'
 import { PromiseState } from '@/store/standard/PromiseState';
-import { ButtonWithTooltip, ChangeCodeMirrorLanguage, ConditionalContents, InsertCodeBlock, InsertSandpack, InsertImage, InsertTable, ListsToggle, MDXEditorMethods, SandpackConfig, sandpackPlugin, Select, ShowSandpackInfo, SingleChoiceToggleGroup, toolbarPlugin, UndoRedo, type CodeBlockEditorDescriptor } from '@mdxeditor/editor';
 import { Button, Card, Divider, Image } from '@nextui-org/react';
 import { useTheme } from 'next-themes';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -21,7 +21,6 @@ import { api } from '@/lib/trpc';
 import { NoteType, type Attachment } from '@/server/types';
 import { DialogStore } from '@/store/module/Dialog';
 import { AttachmentsRender } from '../AttachmentRender';
-
 import { ShowCamera } from '../CameraDialog';
 import { ShowAudioDialog } from '../AudioDialog';
 import { IsTagSelectVisible, showTagSelectPop } from '../PopoverFloat/tagSelectPop';
@@ -29,11 +28,15 @@ import { showAiWriteSuggestions } from '../PopoverFloat/aiWritePop';
 import { AiStore } from '@/store/aiStore';
 import { Icon } from '@iconify/react';
 import { usePasteFile } from '@/lib/hooks';
+import { RootStore } from '@/store';
+import { MarkdownRender } from '../MarkdownRender';
+import { BottomToolbar } from './bottomToolbar';
+import { bold, codeBlock,  italic, todo, underline, strike, quote, ulist, olist, link, code, image } from './topToolbar';
 
-const { MDXEditor } = await import('@mdxeditor/editor')
-
-// https://mdxeditor.dev/editor/docs/theming
-// https://react-dropzone.js.org/
+const MarkdownEditor = dynamic(
+  () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
+  { ssr: false }
+);
 
 type IProps = {
   mode: 'create' | 'edit',
@@ -46,63 +49,18 @@ type IProps = {
   originFiles?: Attachment[]
 }
 
-export const HandleFileType = (originFiles: Attachment[]): FileType[] => {
-  if (originFiles?.length == 0) return []
-  const res = originFiles?.map(file => {
-    console.log("file:", file)
-    const extension = helper.getFileExtension(file.name)
-    const previewType = helper.getFileType(file.type, file.name)
-    return {
-      name: file.name,
-      size: file.size,
-      previewType,
-      extension: extension ?? '',
-      preview: file.path,
-      uploadPromise: new PromiseState({ function: async () => file.path }),
-      type: file.type
-    }
-  })
-  res?.map(i => i.uploadPromise.call())
-  return res
-}
 
-export const getEditorElements = () => {
-  const editorElements = document.querySelectorAll('._contentEditable_uazmk_379') as NodeListOf<HTMLElement>
-  return editorElements
-}
-
-
-export const handleEditorKeyEvents = () => {
-  const editorElements = getEditorElements()
-  editorElements.forEach(element => {
-    element.addEventListener('keydown', (e) => {
-      const isTagSelectVisible = IsTagSelectVisible()
-      if (e.key === 'Enter' && isTagSelectVisible) {
-        e.preventDefault()
-        return false
-      }
-    }, true)
-  })
-}
-
-const Editor = observer(({ content, onChange, onSend, isSendLoading, bottomSlot, originFiles, mode, onHeightChange }: IProps) => {
+export const Editor = observer(({ content, onChange, onSend, isSendLoading, bottomSlot, originFiles, mode, onHeightChange }: IProps) => {
   content = ProcessCodeBlocks(content)
   const [canSend, setCanSend] = useState(false)
+  const [errMsg, setErrMsg] = useState<string | null>(null)
   const [isWriting, setIsWriting] = useState(false)
   const { t } = useTranslation()
   const isPc = useMediaQuery('(min-width: 768px)')
-  const mdxEditorRef = React.useRef<MDXEditorMethods>(null)
   const cardRef = React.useRef(null)
   const blinko = RootStore.Get(BlinkoStore)
   const ai = RootStore.Get(AiStore)
   const { theme } = useTheme();
-
-  const pastedFiles = usePasteFile(cardRef);
-  useEffect(() => {
-    if (pastedFiles) {
-      store.uploadFiles(pastedFiles)
-    }
-  }, [pastedFiles])
 
   const store = useLocalObservable(() => ({
     files: [] as FileType[],
@@ -117,105 +75,59 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, bottomSlot,
       } catch (error) { }
     },
     updateSendStatus() {
-      if (store.files?.length == 0 && mdxEditorRef.current?.getMarkdown() == '') {
-        return setCanSend(false)
-      }
-      if (store.files?.some(i => i.uploadPromise?.loading?.value === true)) {
-        return setCanSend(false)
-      }
-      if (store.files?.every(i => !i?.uploadPromise?.loading?.value) && store.files?.length != 0) {
-        return setCanSend(true)
-      }
-      if (mdxEditorRef.current?.getMarkdown() != '') {
-        return setCanSend(true)
-      }
+
     },
     replaceMarkdownTag(text: string, forceFocus = false) {
-      if (mdxEditorRef.current) {
-        if (store.lastRange) {
-          console.log('replaceMarkdownTag', store.lastRangeText)
-          const currentTextBeforeRange = store.lastRangeText.replace(/&#x20;/g, " ") ?? ''
-          const currentText = mdxEditorRef.current!.getMarkdown().replace(/\\/g, '').replace(/&#x20;/g, " ")
-          const tag = currentTextBeforeRange.replace(helper.regex.isEndsWithHashTag, "#" + text + '&#x20;')
-          const MyContent = currentText.replace(currentTextBeforeRange, tag)
-          mdxEditorRef.current.setMarkdown(MyContent)
-          store.focus(forceFocus)
-        }
-      }
+
     },
     insertMarkdown(text) {
-      const Mycontent = mdxEditorRef.current!.getMarkdown()
-      mdxEditorRef.current!.setMarkdown(Mycontent + text)
-      mdxEditorRef.current!.focus(() => {
-        onChange?.(Mycontent + text)
-      }, {
-        defaultSelection: 'rootEnd'
-      })
+
     },
     insertMarkdownByEvent(text) {
-      const processedText = text
-        .replace(/\#/g, '\\#')
-        .replace(/ /g, '&#x20;')
-        .replace(/```/g, '\\`\\`\\`')
-        .replace(/\[/g, '\\[')
-        .replace(/\]/g, '\\]')
-        .replace(/</g, '\\<')
-        .replace(/>/g, '\\>')
-        .replace(/\(/g, '\\(')
-        .replace(/\)/g, '\\)')
-        .replace(/\-/g, '\\-')
-        .replace(/\*/g, '\\*')
-        .replace(/(\r\n|\r|\n|↵|\\n)/g, '&#x20;\n\n&#x20;') //|\u2028|\u2029|\x0B|\x0C|\u0085 &#x20;
-      mdxEditorRef.current!.insertMarkdown(processedText)
-      store.focus()
+
     },
     focus(force = false) {
-      console.log(mdxEditorRef.current)
-      if (force && store.lastRange) {
-        const editorElements = getEditorElements()
-        if (editorElements.length > 0) {
-          editorElements.forEach(editorElement => {
-            requestAnimationFrame(() => {
-              const range = document.createRange()
-              const selection = window.getSelection()
-              const walker = document.createTreeWalker(
-                editorElement,
-                NodeFilter.SHOW_TEXT,
-                null
-              )
-              let lastNode: any = null
-              while (walker.nextNode()) {
-                lastNode = walker.currentNode
-              }
-              if (lastNode) {
-                range.setStart(lastNode, lastNode?.length)
-                range.setEnd(lastNode, lastNode?.length)
-                selection?.removeAllRanges()
-                selection?.addRange(range)
-                editorElement.focus()
-              }
-            })
-          })
-        }
-        onChange?.(mdxEditorRef.current!.getMarkdown())
-      } else {
-        mdxEditorRef.current!.focus(() => {
-          onChange?.(mdxEditorRef.current!.getMarkdown())
-        }, {
-          defaultSelection: 'rootEnd'
-        })
-      }
+      // console.log(mdxEditorRef.current)
+      // if (force && store.lastRange) {
+      //   const editorElements = getEditorElements()
+      //   if (editorElements.length > 0) {
+      //     editorElements.forEach(editorElement => {
+      //       requestAnimationFrame(() => {
+      //         const range = document.createRange()
+      //         const selection = window.getSelection()
+      //         const walker = document.createTreeWalker(
+      //           editorElement,
+      //           NodeFilter.SHOW_TEXT,
+      //           null
+      //         )
+      //         let lastNode: any = null
+      //         while (walker.nextNode()) {
+      //           lastNode = walker.currentNode
+      //         }
+      //         if (lastNode) {
+      //           range.setStart(lastNode, lastNode?.length)
+      //           range.setEnd(lastNode, lastNode?.length)
+      //           selection?.removeAllRanges()
+      //           selection?.addRange(range)
+      //           editorElement.focus()
+      //         }
+      //       })
+      //     })
+      //   }
+      //   onChange?.(mdxEditorRef.current!.getMarkdown())
+      // } else {
+      //   mdxEditorRef.current!.focus(() => {
+      //     onChange?.(mdxEditorRef.current!.getMarkdown())
+      //   }, {
+      //     defaultSelection: 'rootEnd'
+      //   })
+      // }
     },
     clearMarkdown() {
-      if (mdxEditorRef.current) {
-        mdxEditorRef.current.setMarkdown("")
-        store.focus()
-      }
+
     },
     inertHash() {
-      mdxEditorRef.current!.insertMarkdown("&#x20;#")
-      mdxEditorRef.current!.focus()
-      store.handlePopTag()
+
     },
     async speechToText(filePath) {
       if (!blinko.showAi) {
@@ -311,68 +223,54 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, bottomSlot,
       }
     },
     deleteLastChar() {
-      const content = mdxEditorRef.current!.getMarkdown()
-      mdxEditorRef.current!.setMarkdown(content.slice(0, -1))
+
     },
     setMarkdownLoading(loading: boolean) {
-      if (loading) {
-        mdxEditorRef.current!.insertMarkdown("Thinking...")
-        store.focus()
-      } else {
-        const content = mdxEditorRef.current!.getMarkdown()
-        const newContent = content.replace(/Thinking.../g, '')
-        mdxEditorRef.current!.setMarkdown(newContent)
-        store.focus()
-      }
+
     }
   }))
-  //fix ui not render
-  useEffect(() => {
-    store.updateSendStatus()
-    setIsWriting(ai.isWriting)
-    onHeightChange?.()
-  }, [blinko.noteTypeDefault, content, ai.isWriting, store.files?.length])
 
+  const pastedFiles = usePasteFile(cardRef);
   useEffect(() => {
-    eventBus.on('editor:replace', store.replaceMarkdownTag)
-    eventBus.on('editor:clear', store.clearMarkdown)
-    eventBus.on('editor:insert', store.insertMarkdownByEvent)
-    eventBus.on('editor:deleteLastChar', store.deleteLastChar)
-    eventBus.on('editor:focus', store.focus)
-    eventBus.on('editor:setMarkdownLoading', store.setMarkdownLoading)
-    handleEditorKeyEvents()
-    store.handleIOSFocus()
-    return () => {
-      eventBus.off('editor:replace', store.replaceMarkdownTag)
-      eventBus.off('editor:clear', store.clearMarkdown)
-      eventBus.off('editor:insert', store.insertMarkdownByEvent)
-      eventBus.off('editor:deleteLastChar', store.deleteLastChar)
-      eventBus.off('editor:focus', store.focus)
-      eventBus.off('editor:setMarkdownLoading', store.setMarkdownLoading)
+    if (pastedFiles) {
+      store.uploadFiles(pastedFiles)
     }
-  }, [])
+  }, [pastedFiles])
 
-  useEffect(() => {
-    if (originFiles?.length != 0) {
-      store.files = HandleFileType(originFiles!)
-    }
-  }, [originFiles])
-
-  const {
-    getRootProps,
-    isDragAccept,
-    getInputProps,
-    open
-  } = useDropzone({
-    multiple: true,
-    noClick: true,
+  const { getRootProps, isDragAccept, getInputProps, open } = useDropzone({
+    multiple: true, noClick: true,
     onDrop: acceptedFiles => {
       store.uploadFiles(acceptedFiles)
     }
   });
 
-  return <Card
-    shadow='none' {...getRootProps()}
+  // export const bold: ICommand = { 
+  //   name: 'bold', 
+  //   keyCommand: 'bold', 
+  //   button: { 'aria-label': 'Add bold text' }, 
+  //   icon: ( 
+  //     <svg width="13" height="13" viewBox="0 0 384 512"> 
+  //       <path 
+  //         fill="currentColor" 
+  //         d="M304.793 243.891c33.639-18.537 53.657-54.16 53.657-95.693 0-48.236-26.25-87.626-68.626-104.179C265.138 34.01 240.849 32 209.661 32H24c-8.837 0-16 7.163-16 16v33.049c0 8.837 7.163 16 16 16h33.113v318.53H24c-8.837 0-16 7.163-16 16V464c0 8.837 7.163 16 16 16h195.69c24.203 0 44.834-1.289 66.866-7.584C337.52 457.193 376 410.647 376 350.014c0-52.168-26.573-91.684-71.207-106.123zM142.217 100.809h67.444c16.294 0 27.536 2.019 37.525 6.717 15.828 8.479 24.906 26.502 24.906 49.446 0 35.029-20.32 56.79-53.029 56.79h-76.846V100.809zm112.642 305.475c-10.14 4.056-22.677 4.907-31.409 4.907h-81.233V281.943h84.367c39.645 0 63.057 25.38 63.057 63.057.001 28.425-13.66 52.483-34.782 61.284z" 
+  //       /> 
+  //     </svg> 
+  //   ), 
+  //   execute: ({ state, view }) => { 
+  //     if (!state || !view) return; 
+  //     view.dispatch( 
+  //       view.state.changeByRange((range) => ({ 
+  //         changes: [ 
+  //           { from: range.from, insert: '**' }, 
+  //           { from: range.to, insert: '**' }, 
+  //         ], 
+  //         range: EditorSelection.range(range.from + 2, range.to + 2), 
+  //       })), 
+  //     ); 
+  //   }, 
+  // }; 
+
+  return <Card shadow='none' {...getRootProps()}
     className={`p-2 relative border-2 border-border transition-all ${isDragAccept ? 'border-2 border-green-500 border-dashed transition-all' : ''}`}>
     <div ref={cardRef}
       onKeyUp={async event => {
@@ -389,155 +287,110 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, bottomSlot,
       onKeyDown={e => {
         onHeightChange?.()
       }}>
-      <MDXEditor
-        translation={(key, defaultValue) => {
-          if (key == 'toolbar.bulletedList') return t('bulleted-list');
-          if (key == 'toolbar.numberedList') return t('numbered-list');
-          if (key == 'toolbar.checkList') return t('check-list');
-          if (key == 'toolbar.table') return t('insert-table');
-          if (key == 'toolbar.codeBlock') return t('insert-codeblock');
-          if (key == 'toolbar.insertSandpack') return t('insert-sandpack');
-          return defaultValue
+      <MarkdownEditor
+        value={content}
+        toolbars={[bold, italic, "header", olist, ulist, quote, strike, underline, code, codeBlock, todo, link, image]}
+        autoFocus={true}
+        onChange={e => {
+          console.log(e)
+          onChange?.(e)
         }}
-        ref={mdxEditorRef}
-        placeholder={t('i-have-a-new-idea')}
-        className={theme == 'dark' ? "dark-theme dark-editor" : ''}
-        contentEditableClassName='prose'
-        onChange={v => {
-          onChange?.(v)
-          store.handlePopTag()
-          store.handlePopAiWrite()
-        }}
-        autoFocus={{
-          defaultSelection: 'rootEnd'
-        }}
-        markdown={content}
-        plugins={[
-          toolbarPlugin({
-            toolbarContents: () => (
-              <div className='flex flex-col  w-full'>
-                {
-                  store.files.length > 0 && <div className='w-full my-2'>
-                    <AttachmentsRender files={store.files} />
-                  </div>
-                }
-                {
-                  isWriting &&
-                  <div id='ai-write-suggestions' className='flex gap-2 items-center'>
-                    <Button onClick={e => {
-                      ai.isWriting = false
-                    }} startContent={<Icon icon="ic:sharp-check" className='green' />} size='sm' variant='light' color='success'>{t('accept')}</Button>
-                    <Button onClick={e => {
-                      mdxEditorRef.current!.setMarkdown(ai.originalContent)
-                      store.focus()
-                      ai.isWriting = false
-                    }} startContent={<Icon icon="ic:sharp-close" className='red' />} size='sm' variant='light' color='danger'>{t('reject')}</Button>
-                    <Button onClick={e => {
-                      ai.abort()
-                    }} startContent={<Icon icon="mynaui:stop" className='blinko' />} size='sm' variant='light' color='warning'>{t('stop')} </Button>
-                  </div>
-                }
-                <div className='flex w-full items-center'>
-                  <ButtonWithTooltip className='!w-[24px] !h-[24px]' title={
-                    blinko.noteTypeDefault == NoteType.BLINKO ? t('blinko') : t('note')
-                  } onClick={e => {
-                    if (blinko.noteTypeDefault == NoteType.BLINKO) {
-                      blinko.noteTypeDefault = NoteType.NOTE
-                    } else {
-                      blinko.noteTypeDefault = NoteType.BLINKO
-                    }
-                  }}>
-                    {
-                      blinko.noteTypeDefault == NoteType.BLINKO ? <LightningIcon className='blinko' /> :
-                        <NotesIcon className='note' />
-                    }
-                  </ButtonWithTooltip>
-                  <ButtonWithTooltip className='!w-[24px] !h-[24px] mr-2' title={t('insert-hashtag')} onClick={e => {
-                    store.inertHash()
-                  }}>
-                    <HashtagIcon />
-                  </ButtonWithTooltip>
-
-                  <Divider orientation="vertical" />
-
-                  <ListsToggle />
-                  {isPc && <InsertTable />}
-                  {isPc && <InsertImage />}
-                  <ConditionalContents
-                    options={[
-                      { when: (editor) => editor?.editorType === 'codeblock', contents: () => <ChangeCodeMirrorLanguage /> },
-                      { when: (editor) => editor?.editorType === 'sandpack', contents: () => <ShowSandpackInfo /> },
-                      {
-                        fallback: () => (<>
-                          {isPc && <InsertCodeBlock />}
-                          {isPc && <InsertSandpack />}
-                        </>)
-                      }
-                    ]}
-                  />
-                  <Divider orientation="vertical" />
-
-                  <ButtonWithTooltip className='!w-[24px] !h-[24px] mr-2' title={t('upload-file')} onClick={e => {
-                    open()
-                  }}>
-                    <input {...getInputProps()} />
-                    <FileUploadIcon className='hover:opacity-80 transition-all' />
-                  </ButtonWithTooltip>
-
-
-                  {
-                    blinko.showAi && <ButtonWithTooltip className='!w-[24px] !h-[24px] mr-2' title={t('recording')} onClick={e => {
-                      ShowAudioDialog((file) => {
-                        store.uploadFiles([file])
-                      })
-                    }}>
-                      <VoiceIcon className='primary-foreground group-hover:rotate-[180deg] transition-all' />
-                    </ButtonWithTooltip>
-                  }
-
-
-                  <ButtonWithTooltip title={t('upload-file')} className='!w-[24px] !h-[24px] mr-2' onClick={e => {
-                    ShowCamera((file) => {
-                      console.log(file)
-                      store.uploadFiles([file])
-                    })
-                  }}>
-                    <CameraIcon className='primary-foreground group-hover:rotate-[180deg] transition-all' />
-                  </ButtonWithTooltip>
-
-
-                  <Button size='sm' radius='md' onClick={() => {
-                    RootStore.Get(DialogStore).close()
-                  }} className={`${mode == 'create' ? 'hidden' : 'group ml-auto mr-2'}`} isIconOnly>
-                    <CancelIcon className='primary-foreground group-hover:rotate-[180deg] transition-all' />
-                  </Button>
-
-
-                  <Button isDisabled={!canSend} size='sm' radius='md' isLoading={isSendLoading} onClick={async e => {
-                    await onSend?.({
-                      content,
-                      files: store.files.map(i => { return { ...i, uploadPath: i.uploadPromise.value } })
-                    })
-                    onChange?.('')
-                    store.files = []
-                    ai.isWriting = false
-                  }} className={`${mode == 'create' ? 'ml-auto' : ''} w-[60px] group`} isIconOnly color='primary' >
-                    {
-                      store.files?.some(i => i.uploadPromise?.loading?.value) ?
-                        <Icon icon="line-md:uploading-loop" width="24" height="24" /> :
-                        <SendIcon className='primary-foreground !text-primary-foreground group-hover:rotate-[-35deg] transition-all' />
-                    }
-                  </Button>
-                </div>
-              </div>
-            )
-          }),
-          ...MyPlugins
-        ]}
+      // renderPreview={({ source }, initVisible) => {  
+      //   return <MarkdownRender
+      //     content={content}
+      //     onChange={onChange} disableOverflowing />
+      // }}
       />
+
+      {
+        store.files.length > 0 && <div className='w-full my-2'>
+          <AttachmentsRender files={store.files} />
+        </div>
+      }
+      {
+        isWriting &&
+        <div id='ai-write-suggestions' className='flex gap-2 items-center'>
+          <Button onClick={e => {
+            ai.isWriting = false
+          }} startContent={<Icon icon="ic:sharp-check" className='green' />} size='sm' variant='light' color='success'>{t('accept')}</Button>
+          <Button onClick={e => {
+            store.focus()
+            ai.isWriting = false
+          }} startContent={<Icon icon="ic:sharp-close" className='red' />} size='sm' variant='light' color='danger'>{t('reject')}</Button>
+          <Button onClick={e => {
+            ai.abort()
+          }} startContent={<Icon icon="mynaui:stop" className='blinko' />} size='sm' variant='light' color='warning'>{t('stop')} </Button>
+        </div>
+      }
+
+      {/* Footer toolbar  */}
+      <div className='flex items-center'>
+        <BottomToolbar items={[
+          {
+            icon: blinko.noteTypeDefault == NoteType.BLINKO ? <LightningIcon className='blinko' /> :
+              <NotesIcon className='note' />,
+            tooltipContent: blinko.noteTypeDefault == NoteType.BLINKO ? t('blinko') : t('note'),
+            onClick: () => {
+              if (blinko.noteTypeDefault == NoteType.BLINKO) {
+                blinko.noteTypeDefault = NoteType.NOTE
+              } else {
+                blinko.noteTypeDefault = NoteType.BLINKO
+              }
+            }
+          },
+          {
+            icon: 'gravity-ui:hashtag',
+            tooltipContent: t('insert-hashtag'),
+            onClick: () => store.inertHash()
+          },
+          {
+            icon: 'mage:file-upload',
+            tooltipContent: t('upload-file'),
+            onClick: () => open(),
+            slot: <input {...getInputProps()} />
+          },
+          {
+            icon: 'heroicons:camera',
+            tooltipContent: t('upload-file'),
+            onClick: () => ShowCamera((file) => {
+              store.uploadFiles([file])
+            })
+          },
+          {
+            icon: 'hugeicons:voice-id',
+            tooltipContent: t('recording'),
+            onClick: () => ShowAudioDialog((file) => {
+              store.uploadFiles([file])
+            }),
+            show: blinko.showAi
+          }
+        ]} />
+
+        <Button isIconOnly size='sm' radius='md' onClick={() => {
+          RootStore.Get(DialogStore).close()
+        }} className={`${mode == 'create' ? 'hidden' : 'group ml-auto mr-2'}`} >
+          <CancelIcon className='primary-foreground group-hover:rotate-[180deg] transition-all' />
+        </Button>
+
+
+        <Button isIconOnly isDisabled={!canSend} size='sm' radius='md' isLoading={isSendLoading} onClick={async e => {
+          await onSend?.({
+            content,
+            files: store.files.map(i => { return { ...i, uploadPath: i.uploadPromise.value } })
+          })
+          onChange?.('')
+          store.files = []
+          ai.isWriting = false
+        }} className={`${mode == 'create' ? 'ml-auto' : ''} w-[60px] group ml-auto`} color='primary' >
+          {
+            store.files?.some(i => i.uploadPromise?.loading?.value) ?
+              <Icon icon="line-md:uploading-loop" width="24" height="24" /> :
+              <SendIcon className='primary-foreground !text-primary-foreground group-hover:rotate-[-35deg] transition-all' />
+          }
+        </Button>
+      </div>
+
+
     </div>
-  </Card >
+  </Card>
 })
-
-export default Editor
-

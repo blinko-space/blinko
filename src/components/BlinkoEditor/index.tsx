@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite"
-import Editor from "../Common/Editor"
 import { RootStore } from "@/store"
 import { BlinkoStore } from "@/store/blinkoStore"
 import dayjs from "@/lib/dayjs"
 import { useEffect, useRef } from "react"
 import { NoteType } from "@/server/types"
 import { useRouter } from "next/router"
+import { Editor } from "../Common/Editor"
 
 type IProps = {
   mode: 'create' | 'edit',

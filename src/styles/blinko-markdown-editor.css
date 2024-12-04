@@ -1,0 +1,51 @@
+.md-editor {
+  color: var(--foreground);
+  box-shadow: none;
+  text-align: left;
+  border-radius: 3px;
+  position: relative;
+  display: flex;
+  background-color: transparent;
+}
+
+.md-editor-toolbar-warp:not(.md-editor-toolbar-bottom) {
+  border: none;
+}
+
+.md-editor-preview {
+  background-color: transparent;
+  padding: 4px !important;
+}
+
+.ͼ26 {
+  background-color: transparent;
+}
+
+.ͼ26 .cm-gutters {
+  display: none;
+}
+
+.ͼ26 .cm-activeLine {
+  background-color: transparent;
+}
+
+.md-editor-toolbar {
+  gap: 4px;
+}
+
+.md-editor-toolbar svg {
+  /* height: 16px;
+  width: 16px; */
+}
+
+.md-editor-toolbar button:hover{
+  color: var(--foreground);
+  background-color: var(--hover);
+}
+
+.md-editor-toolbar button{
+  padding: 2px;
+  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+}

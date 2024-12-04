@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { helper } from '@/lib/helper';
 import { type Attachment } from '@/server/types';
 import { FileType } from '../Editor/type';
-import { HandleFileType } from '../Editor';
+import { HandleFileType } from '../Editor/indexOld';
 import { DeleteIcon, DownloadIcon } from './icons';
 import { ImageRender } from './imageRender';
 
