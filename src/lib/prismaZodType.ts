@@ -251,3 +251,21 @@ export const cacheSchema = z.object({
   value: z.any(),
 })
 
+
+/////////////////////////////////////////
+// PLUGIN SCHEMA
+// /////////////////////////////////////////
+
+export const pluginSchema = z.object({
+  id: z.number().int(),
+  metadata: z.any(),
+  path: z.string(),
+  isUse: z.boolean(),
+  isDev: z.boolean(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+})
+
+export type plugin = z.infer<typeof pluginSchema>
+
+  

@@ -7,7 +7,7 @@ import { ResourceType } from "@/server/types";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/trpc";
 import { PromiseCall } from "./standard/PromiseState";
-import { t } from "i18next";
+import { Resource, t } from "i18next";
 import { ToastPlugin } from "./module/Toast/Toast";
 import { DialogStore } from "./module/Dialog";
 import { Button, Input } from "@nextui-org/react";
@@ -31,6 +31,15 @@ export class ResourceStore implements Store {
   setCurrentFolder = (folder: string | null) => {
     this.currentFolder = folder;
   }
+
+  selectAllFiles = (resources: ResourceType[]) => {
+    this.selectedItems.clear();
+    resources.forEach(resource => {
+      if (!resource.isFolder && resource.id) {
+        this.selectedItems.add(resource.id);
+      }
+    });
+  };
 
   toggleSelect = (id: number) => {
     const newSet = new Set(this.selectedItems);

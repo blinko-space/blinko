@@ -187,3 +187,13 @@ model cache {
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
 }
+
+model plugin {
+  id        Int      @id @default(autoincrement())
+  metadata  Json     @db.Json
+  path      String   @db.VarChar
+  isUse     Boolean  @default(true)
+  isDev     Boolean  @default(false)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+}

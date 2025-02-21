@@ -463,5 +463,20 @@
   "has-todo": "A faire",
   "reference-by": "Référence par",
   "hide-notification": "Masquer la notification",
-  "search-settings": "Paramètres de recherche..."
+  "search-settings": "Paramètres de recherche...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "Cette opération supprimera les fichiers sélectionnés et ne pourra pas être restaurée. Veuillez confirmer.",
+  "plugin-settings": "Paramètres du plugin",
+  "installed-plugins": "Installé",
+  "marketplace": "Place de marché",
+  "local-development": "Développement local",
+  "add-local-plugin": "Ajouter le plugin local",
+  "local-plugin": "Plugin local",
+  "uninstall": "Désinstaller",
+  "install": "Installer",
+  "downloads": "Téléchargements",
+  "plugin-updated": "Extension mise à jour",
+  "plugin-update-failed": "Mise à jour du plugin échouée",
+  "plugin-connection-failed": "Échec de la connexion du plug-in",
+  "disconnect": "Déconnecter",
+  "local-development-description": "Ajoutez un plug-in de développement local et déboguez-le."
 }

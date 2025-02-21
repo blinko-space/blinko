@@ -11,7 +11,8 @@ import { encode, getToken as getNextAuthToken } from 'next-auth/jwt';
 
 export const SendWebhook = async (data: any, webhookType: string, ctx: { id: string }) => {
   try {
-    const globalConfig = await getGlobalConfig({ useAdmin: true })
+    //@ts-ignore
+    const globalConfig = await getGlobalConfig({ ctx })
     if (globalConfig.webhookEndpoint) {
       await axios.post(globalConfig.webhookEndpoint, { data, webhookType, activityType: `blinko.note.${webhookType}` })
     }

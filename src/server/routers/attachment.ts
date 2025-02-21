@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 import path from 'path';
 import { FileService } from '../plugins/files';
 
-interface AttachmentResult {
+export interface AttachmentResult {
   id: number | null;
   path: string;
   name: string;
@@ -419,5 +419,18 @@ export const attachmentsRouter = router({
           throw new Error(`Failed to delete file: ${error.message}`);
         }
       });
+    }),
+    deleteMany: authProcedure
+    .input(z.object({
+      ids: z.array(z.number()),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const { ids } = input;
+      await prisma.attachments.deleteMany({
+        where: {
+          id: { in: ids }
+        }
+      });
+      return { success: true, message: 'Files deleted successfully' };
     }),
 });

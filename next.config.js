@@ -1,5 +1,5 @@
 const isProduction = process.env.NODE_ENV === 'production';
-const isVercel = process.env.VERCEL === '1';
+
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -106,7 +106,7 @@ module.exports = withPWA({
           },
         ],
         source: '/logo-dark.png',
-      },
+      }
     ];
   },
   webpack: (config, { dev,isServer }) => {
@@ -126,10 +126,19 @@ module.exports = withPWA({
     })
     return config;
   },
-  outputFileTracing: isVercel? false : true,
+  outputFileTracing: true, 
   reactStrictMode: isProduction? true : false,
   swcMinify: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/plugins/:path*',
+        destination: '/api/serve-plugin/:path*',
+      },
+    ]
+  }
+  
 })

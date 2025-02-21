@@ -11,7 +11,7 @@ import { _ } from '@/lib/lodash';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'usehooks-ts';
 import { type Attachment } from '@/server/types';
-import { Card } from '@nextui-org/react';
+import { Card, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 import { AttachmentsRender, ReferenceRender } from '../AttachmentRender';
 import { UploadButtons } from './Toolbar/UploadButtons';
 import { ReferenceButton } from './Toolbar/ReferenceButton';
@@ -29,6 +29,10 @@ import { EditorStore } from "./editorStore";
 import { AIWriteButton } from "./Toolbar/AIWriteButton";
 import { FullScreenButton } from "./Toolbar/FullScreenButton";
 import { eventBus } from "@/lib/event";
+import { Icon } from "@iconify/react";
+import { PluginApiStore } from "@/store/plugin/pluginApiStore";
+import { PluginRender } from '@/store/plugin/pluginRender';
+import { IconButton } from "./Toolbar/IconButton";
 
 //https://ld246.com/guide/markdown
 type IProps = {
@@ -48,6 +52,7 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, originFiles
   const cardRef = React.useRef(null)
   const isPc = useMediaQuery('(min-width: 768px)')
   const store = useLocalObservable(() => new EditorStore())
+  const pluginApi = RootStore.Get(PluginApiStore)
   const blinko = RootStore.Get(BlinkoStore)
   const { t } = useTranslation()
 
@@ -128,6 +133,18 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, originFiles
                 open={open}
                 onFileUpload={store.uploadFiles}
               />
+              {pluginApi.customToolbarIcons.map((item) => (
+                <Popover key={item.name} placement={item.placement}>
+                  <PopoverTrigger>
+                    <div className="hover:bg-default-100 rounded-md">
+                      <IconButton icon={item.icon} tooltip={item.tooltip} />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PluginRender content={item.content} />
+                  </PopoverContent>
+                </Popover>
+              ))}
             </>
           )}
           <div className='flex items-center gap-1 ml-auto'>
@@ -143,4 +160,3 @@ const Editor = observer(({ content, onChange, onSend, isSendLoading, originFiles
 });
 
 export default Editor
-

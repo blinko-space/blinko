@@ -12,6 +12,7 @@ import { Notifications, NotificationType } from '@/lib/prismaZodType';
 import { ShowCommentDialog } from '../BlinkoCard/commentButton';
 import { BlinkoStore } from '@/store/blinkoStore';
 
+
 export const BlinkoNotification = observer(() => {
   const { t } = useTranslation();
   const blinko = RootStore.Get(BlinkoStore)
@@ -79,7 +80,7 @@ export const BlinkoNotification = observer(() => {
           size="sm"
         >
           <Badge
-            content={store.unreadCount.value}
+            content=""
             color="danger"
             isInvisible={!store.unreadCount.value}
             shape="circle"

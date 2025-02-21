@@ -470,5 +470,20 @@
   "has-todo": "할 일",
   "reference-by": "참조자",
   "hide-notification": "알림 숨기기",
-  "search-settings": "검색 설정..."
+  "search-settings": "검색 설정...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "이 작업은 선택한 파일을 삭제하며 복원할 수 없습니다. 확인해 주십시오.",
+  "plugin-settings": "플러그인 설정",
+  "installed-plugins": "설치됨",
+  "marketplace": "시장",
+  "local-development": "현지 개발",
+  "add-local-plugin": "로컬 플러그인 추가",
+  "local-plugin": "로컬 플러그인",
+  "uninstall": "제거하기",
+  "install": "설치하다",
+  "downloads": "다운로드",
+  "plugin-updated": "플러그인이 업데이트되었습니다.",
+  "plugin-update-failed": "플러그인 업데이트 실패",
+  "plugin-connection-failed": "플러그인 연결 실패",
+  "disconnect": "연결 끊기",
+  "local-development-description": "로컬 개발 플러그인을 추가하고 디버깅하세요."
 }

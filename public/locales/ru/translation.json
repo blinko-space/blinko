@@ -407,5 +407,20 @@
   "has-todo": "Есть ДЛЯ-СДЕЛКИ",
   "reference-by": "Ссылкой от",
   "hide-notification": "Скрыть уведомление",
-  "search-settings": "Настройки поиска..."
+  "search-settings": "Настройки поиска...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "Эта операция удалит выбранные файлы и не может быть восстановлена. Подтвердите, пожалуйста.",
+  "plugin-settings": "Настройка плагина",
+  "installed-plugins": "Установлено",
+  "marketplace": "Торговая площадь",
+  "local-development": "Местное развитие",
+  "add-local-plugin": "Добавить локальный плагин",
+  "local-plugin": "Локальный плагин",
+  "uninstall": "Удалить",
+  "install": "Установить",
+  "downloads": "Загрузки",
+  "plugin-updated": "Плагин обновлен",
+  "plugin-update-failed": "Обновление плагина не удалось",
+  "plugin-connection-failed": "Ошибка соединения с плагином",
+  "disconnect": "Отключить",
+  "local-development-description": "Добавьте локальный плагин разработки и отладите его."
 }

@@ -45,10 +45,10 @@ export class AiService {
         case filePath.endsWith('.txt'):
           loader = new TextLoader(filePath);
           break;
-        // case filePath.endsWith('.csv'):
-        //   console.log('load csv')
-        //   loader = new CSVLoader(filePath);
-        //   break;
+        case filePath.endsWith('.csv'):
+          console.log('load csv')
+          loader = new CSVLoader(filePath);
+          break;
         default:
           loader = new UnstructuredLoader(filePath);
       }

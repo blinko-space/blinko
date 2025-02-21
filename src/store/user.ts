@@ -200,6 +200,7 @@ export class UserStore implements User, Store {
         userStore.ready({ ...session.user });
         this.initializeSettings(setTheme, i18n);
         userStore.userInfo.call(Number(this.id))
+        userStore.canRegister.call()
       }
     }, [session]);
 

@@ -19,6 +19,7 @@ import { parseAbsoluteToLocal } from "@internationalized/date";
 import i18n from "@/lib/i18n";
 import { BlinkoShareDialog } from "../BlinkoShareDialog";
 import { BaseStore } from "@/store/baseStore";
+import { PluginApiStore } from "@/store/plugin/pluginApiStore";
 
 export const ShowEditTimeModel = () => {
   const blinko = RootStore.Get(BlinkoStore)
@@ -270,6 +271,7 @@ export const BlinkoRightClickMenu = observer(() => {
   const [isDetailPage, setIsDetailPage] = useState(false)
   const router = useRouter()
   const blinko = RootStore.Get(BlinkoStore)
+  const pluginApi = RootStore.Get(PluginApiStore)
 
   useEffect(() => {
     setIsDetailPage(router.pathname.includes('/detail'))
@@ -310,9 +312,14 @@ export const BlinkoRightClickMenu = observer(() => {
       </ContextMenuItem>
     ) : <></>}
 
-    <ContextMenuItem className='select-none divider hover:!bg-none'>
-      <Divider orientation="horizontal" />
-    </ContextMenuItem>
+    {pluginApi.customRightClickMenus.map((menu) => (
+      <ContextMenuItem key={menu.name} onClick={() => menu.onClick(blinko.curSelectedNote!)} disabled={menu.disabled}>
+        <div className="flex items-start gap-2">
+          {menu.icon && <Icon icon={menu.icon} width="20" height="20" />}
+          <div>{menu.label}</div>
+        </div>
+      </ContextMenuItem>
+    ))}
 
     {!blinko.curSelectedNote?.isRecycle ? (
       <ContextMenuItem onClick={handleTrash}>
@@ -332,6 +339,7 @@ export const LeftCickMenu = observer(({ onTrigger, className }: { onTrigger: () 
   const [isDetailPage, setIsDetailPage] = useState(false)
   const router = useRouter()
   const blinko = RootStore.Get(BlinkoStore)
+  const pluginApi = RootStore.Get(PluginApiStore)
 
   useEffect(() => {
     setIsDetailPage(router.pathname.includes('/detail'))
@@ -362,6 +370,23 @@ export const LeftCickMenu = observer(({ onTrigger, className }: { onTrigger: () 
         </DropdownItem>
       ) : <></>}
 
+      {
+        pluginApi.customRightClickMenus.length > 0 ?
+          <>
+            {
+              pluginApi.customRightClickMenus.map((menu) => (
+                <DropdownItem key={menu.name} onPress={() => menu.onClick(blinko.curSelectedNote!)}>
+                  <div className="flex items-start gap-2">
+                    {menu.icon && <Icon icon={menu.icon} width="20" height="20" />}
+                    <div>{menu.label}</div>
+                  </div>
+                </DropdownItem>
+              ))
+            }
+          </> :
+          <></>
+      }
+
       {!blinko.curSelectedNote?.isRecycle ? (
         <DropdownItem key="TrashItem" onPress={handleTrash}>
           <TrashItem />
@@ -373,6 +398,7 @@ export const LeftCickMenu = observer(({ onTrigger, className }: { onTrigger: () 
           <DeleteItem />
         </DropdownItem>
       ) : <></>}
+
     </DropdownMenu>
   </Dropdown>
 })

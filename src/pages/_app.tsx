@@ -18,6 +18,9 @@ import { motion } from 'motion/react';
 import { BlinkoMultiSelectPop } from '@/components/BlinkoMultiSelectPop';
 import { BlinkoMusicPlayer } from '@/components/BlinkoMusicPlayer';
 import { LoadingPage } from '@/components/Common/LoadingPage';
+import { PluginManagerStore } from '@/store/plugin/pluginManagerStore';
+import { RootStore } from '@/store';
+import { api } from '@/lib/trpc';
 
 const MyApp = ({ Component, pageProps }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +31,7 @@ const MyApp = ({ Component, pageProps }) => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
+    RootStore.Get(PluginManagerStore).initInstalledPlugins();
     return () => clearTimeout(timer);
   }, []);
 

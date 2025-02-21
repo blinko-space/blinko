@@ -1,3 +1,113 @@
+## [0.40.5](https://github.com/blinko-space/blinko/compare/v0.40.4...v0.40.5) (2025-02-21)
+
+
+### Bug Fixes
+
+* Improve global configuration retrieval logic ([5627ef9](https://github.com/blinko-space/blinko/commit/5627ef9e20f424371b5e221f5f312b8d2450fb7d))
+
+## [0.40.4](https://github.com/blinko-space/blinko/compare/v0.40.3...v0.40.4) (2025-02-21)
+
+
+### Bug Fixes
+
+* next.config.js ([2afa8aa](https://github.com/blinko-space/blinko/commit/2afa8aac1fe1bfbb7b83e69d321b0635f9376b57))
+
+## [0.40.3](https://github.com/blinko-space/blinko/compare/v0.40.2...v0.40.3) (2025-02-21)
+
+
+### Bug Fixes
+
+* Move plugin storage to .blinko directory ([37d63c2](https://github.com/blinko-space/blinko/commit/37d63c28e4437351273e035ac989c4867fa6c929))
+
+## [0.40.2](https://github.com/blinko-space/blinko/compare/v0.40.1...v0.40.2) (2025-02-20)
+
+
+### Bug Fixes
+
+* Add global clipboard copy function and update build configurations ([147d8c7](https://github.com/blinko-space/blinko/commit/147d8c7a9cc2b7e6c56281f443a4282c6908c258))
+* plugin issues ([4cb83f4](https://github.com/blinko-space/blinko/commit/4cb83f4373e4f06a7fc922d3aece9c4c07bcebfe))
+
+## [0.40.1](https://github.com/blinko-space/blinko/compare/v0.40.0...v0.40.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* **config:** Update plugin route to use API endpoint for serving plugins ([f893873](https://github.com/blinko-space/blinko/commit/f893873c6795fed965b0c1b5c94e9b5bf9b1280f))
+
+# [0.40.0](https://github.com/blinko-space/blinko/compare/v0.39.3...v0.40.0) (2025-02-20)
+
+
+### Bug Fixes
+
+* Improve plugin installation and error handling ([9b99200](https://github.com/blinko-space/blinko/commit/9b992001c4d6c12109a0fe18095a8dd749519b7c))
+
+
+### Features
+
+* **config:** Add rewrite rule for serving plugins from public directory ([6db57d0](https://github.com/blinko-space/blinko/commit/6db57d0445361fcdfdce92b680f9fb7a11e924a9))
+
+## [0.39.3](https://github.com/blinko-space/blinko/compare/v0.39.2...v0.39.3) (2025-02-20)
+
+
+### Bug Fixes
+
+* update ([47beb64](https://github.com/blinko-space/blinko/commit/47beb64d557dc983289a221586ac1d7dd70eb543))
+
+## [0.39.2](https://github.com/blinko-space/blinko/compare/v0.39.1...v0.39.2) (2025-02-20)
+
+
+### Bug Fixes
+
+* **plugin:** Hardcode dev plugin name for settings configuration ([96baf02](https://github.com/blinko-space/blinko/commit/96baf0278c0887ec3b42378039b63c1a90237a3a))
+
+## [0.39.1](https://github.com/blinko-space/blinko/compare/v0.39.0...v0.39.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* Remove debug logging of plugin menu length in right-click menu ([f6028e4](https://github.com/blinko-space/blinko/commit/f6028e4157788aafcc615b82ef69e8585ce59792))
+
+# [0.39.0](https://github.com/blinko-space/blinko/compare/v0.38.6...v0.39.0) (2025-02-20)
+
+
+### Bug Fixes
+
+* add TypeScript type definitions and enhance plugin architecture ([cd7db9c](https://github.com/blinko-space/blinko/commit/cd7db9cc7caeb4989b375d167c18745737447566))
+* **plugin:** improve plugin ([d62a1ef](https://github.com/blinko-space/blinko/commit/d62a1ef087b42d3e9509f90c01ae5ec513c1b755))
+
+
+### Features
+
+* enhance plugin system with Alpine.js and custom toolbar icons ([7499ba7](https://github.com/blinko-space/blinko/commit/7499ba7591396451afc8206e1650dbacc82bc893))
+* integrate custom plugin loading in MyApp component ([7a81b81](https://github.com/blinko-space/blinko/commit/7a81b81c451722c45088312b58d5b92e5d477049))
+* integrate SystemJS for dynamic plugin loading ([3ef8db6](https://github.com/blinko-space/blinko/commit/3ef8db62905d1659604bf693f81dec40406d44f9))
+* **plugin:** Add settings panel support for installed plugins ([2c71ebf](https://github.com/blinko-space/blinko/commit/2c71ebf100976b2f213f9e5a446f5679b08e5976))
+* **plugin:** Enhance plugin system with advanced features and UI improvements ([819ddcb](https://github.com/blinko-space/blinko/commit/819ddcbb9a9fa091af8d4204520808cc7794728b))
+* **plugin:** Enhance plugin system with dynamic toolbar rendering and global Blinko interface ([df2ef70](https://github.com/blinko-space/blinko/commit/df2ef70d3513644812f4cbba85ddd969d9817e9a))
+* **plugin:** Implement comprehensive plugin management system ([f76c451](https://github.com/blinko-space/blinko/commit/f76c45117d6a637a3b4569c0a973af64cb4b1ea9))
+* **plugin:** Modify dev plugin loading to support settings panel detection ([1428bbb](https://github.com/blinko-space/blinko/commit/1428bbb93aa36ff2ab66beff32e63a12d494b13a))
+
+## [0.38.6](https://github.com/blinko-space/blinko/compare/v0.38.5...v0.38.6) (2025-02-17)
+
+
+### Bug Fixes
+
+* Add multi-select functionality and delete confirmation for resources [#492](https://github.com/blinko-space/blinko/issues/492) ([7375b6f](https://github.com/blinko-space/blinko/commit/7375b6ff2d89ede3f50158a1743fe45f0a70637d))
+
+## [0.38.5](https://github.com/blinko-space/blinko/compare/v0.38.4...v0.38.5) (2025-02-12)
+
+
+### Bug Fixes
+
+* globalConfig get issue ([a745602](https://github.com/blinko-space/blinko/commit/a745602e2338ffd2de65fe7745f7d10d032db264))
+
+## [0.38.4](https://github.com/blinko-space/blinko/compare/v0.38.3...v0.38.4) (2025-02-12)
+
+
+### Bug Fixes
+
+* webhookEndpoint get issue ([6f751e0](https://github.com/blinko-space/blinko/commit/6f751e0539dc67a733634feb0149341daec8d6ef))
+
 ## [0.38.3](https://github.com/blinko-space/blinko/compare/v0.38.2...v0.38.3) (2025-02-06)
 
 

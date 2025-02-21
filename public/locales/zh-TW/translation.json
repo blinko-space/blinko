@@ -503,5 +503,20 @@
   "has-todo": "有待辦事項",
   "reference-by": "被引用",
   "hide-notification": "隱藏通知",
-  "search-settings": "搜尋設定..."
+  "search-settings": "搜尋設定...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "這個操作將刪除選定的檔案，無法復原，請確認。",
+  "plugin-settings": "外掛程式設定",
+  "installed-plugins": "已安裝",
+  "marketplace": "市場",
+  "local-development": "本地開發",
+  "add-local-plugin": "新增本地插件",
+  "local-plugin": "本地插件",
+  "uninstall": "解除安裝",
+  "install": "安裝",
+  "downloads": "下載",
+  "plugin-updated": "插件已更新",
+  "plugin-update-failed": "插件更新失敗",
+  "plugin-connection-failed": "外掛程式連線失敗",
+  "disconnect": "中文（台灣）：斷開連線",
+  "local-development-description": "新增本地開發外掛程式並進行除錯。"
 }

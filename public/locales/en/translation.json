@@ -491,5 +491,20 @@
   "has-todo": "Has TO-DO",
   "reference-by": "Reference By",
   "hide-notification": "Hide Notification",
-  "search-settings": "Search Settings..."
+  "search-settings": "Search Settings...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "This operation will delete the selected files and cannot be restored,Please confirm",
+  "plugin-settings": "Plugin Setting",
+  "installed-plugins": "Installed",
+  "marketplace": "Marketplace",
+  "local-development": "Local Development",
+  "local-plugin": "Local Plugin",
+  "add-local-plugin": "Add Local Plugin",
+  "uninstall": "Uninstall",
+  "install": "Install",
+  "downloads": "Downloads",
+  "plugin-updated": "Plugin Updated",
+  "plugin-update-failed": "Plugin Update Failed",
+  "plugin-connection-failed": "Plugin Connection Failed",
+  "disconnect": "Disconnect",
+  "local-development-description": "Add a local development plug-in and debug it."
 }

@@ -14,6 +14,7 @@ import { Icon } from '@iconify/react';
 import { SendIcon } from '@/components/Common/Icons';
 import { MarkdownRender } from '@/components/Common/MarkdownRender';
 import { eventBus } from '@/lib/event';
+import { PluginApiStore } from '@/store/plugin/pluginApiStore';
 
 interface Props {
   store: EditorStore;
@@ -26,6 +27,7 @@ export const AIWriteButton = observer(({ store, content }: Props) => {
   const blinko = RootStore.Get(BlinkoStore);
   const ai = RootStore.Get(AiStore);
   const scrollRef = useRef<any>(null);
+  const pluginApi = RootStore.Get(PluginApiStore);
 
   const localStore = RootStore.Local(() => ({
     show: false,
@@ -89,6 +91,24 @@ export const AIWriteButton = observer(({ store, content }: Props) => {
               }
             />
 
+          </div>
+
+          <div className='flex flex-wrap gap-2'>
+            {pluginApi.customAiPrompts.map((prompt, index) => (
+              <Button
+                key={index}
+                startContent={prompt.icon && <Icon icon={prompt.icon} width="16" height="16" />}
+                variant='flat'
+                color='warning'
+                size='sm'
+                onPress={() => {
+                  ai.writeQuestion = prompt.prompt;
+                  localStore.handleSubmit();
+                }}
+              >
+                {prompt.name}
+              </Button>
+            ))}
           </div>
 
           {ai.writingResponseText && (

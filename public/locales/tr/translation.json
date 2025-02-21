@@ -416,5 +416,20 @@
   "has-todo": "YAPILACAKLAR",
   "reference-by": "Referans Tarafından",
   "hide-notification": "Bildirimi Gizle",
-  "search-settings": "Arama Ayarları..."
+  "search-settings": "Arama Ayarları...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "Bu işlem seçilen dosyaları silecek ve geri alınamaz, Lütfen onaylayın.",
+  "plugin-settings": "Eklenti Ayarı",
+  "installed-plugins": "Yüklendi",
+  "marketplace": "Pazar yeri",
+  "local-development": "Yerel Kalkınma",
+  "add-local-plugin": "Yerel Eklenti Ekle",
+  "local-plugin": "Yerel Eklenti",
+  "uninstall": "Kaldır",
+  "install": "Yüklemek",
+  "downloads": "İndirmeler",
+  "plugin-updated": "Eklenti Güncellendi.",
+  "plugin-update-failed": "Eklenti Güncelleme Başarısız oldu",
+  "plugin-connection-failed": "Eklenti Bağlantısı Başarısız oldu",
+  "disconnect": "Bağlantıyı kesmek",
+  "local-development-description": "Yerel geliştirme eklentisi ekleyin ve hata ayıklamayı yapın."
 }

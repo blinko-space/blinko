@@ -447,5 +447,21 @@
   "has-todo": "「やるべきこと」",
   "reference-by": "言及者",
   "hide-notification": "通知を非表示",
-  "search-settings": "検索設定..."
+  "search-settings": "検索設定...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "この操作により選択したファイルが削除され、元に戻すことはできません。ご確認ください。",
+  "plugin-settings": "プラグインの設定",
+  "installed-plugins": "インストール済み",
+  "marketplace": "マーケットプレイス",
+  "local-development": "地域開発",
+  "add-local-plugin": "ローカルプラグインを追加します。",
+  "local-plugin": "ローカル プラグイン",
+  "uninstall": "アンインストール",
+  "install": "インストールします。",
+  "downloads": "ダウンロード",
+  "plugin-updated": "プラグインが更新されました",
+  "plugin-update-failed": "プラグインの更新に失敗しました",
+  "plugin-connection-failed": "プラグインの接続に失敗しました",
+  "disconnect": "切断",
+  "local-development-description": "ローカル開発プラグインを追加してデバッグします。",
+  "setting": ""
 }

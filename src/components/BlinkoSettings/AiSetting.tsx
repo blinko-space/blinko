@@ -57,7 +57,7 @@ export const AiSetting = observer(() => {
 
   return (
     <CollapsibleCard
-      icon="tabler:brain"
+      icon="mingcute:ai-line"
       title="AI"
     >
       <Item

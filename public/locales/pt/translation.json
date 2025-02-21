@@ -399,5 +399,20 @@
   "has-todo": "Tem PARA FAZER",
   "reference-by": "Referência por",
   "hide-notification": "Ocultar notificação",
-  "search-settings": "Configurações de pesquisa..."
+  "search-settings": "Configurações de pesquisa...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "Esta operação irá apagar os arquivos selecionados e não poderá ser restaurada, por favor confirme.",
+  "plugin-settings": "Configuração do Plugin",
+  "installed-plugins": "Instalado",
+  "marketplace": "Mercado",
+  "local-development": "Desenvolvimento Local",
+  "add-local-plugin": "Adicionar Plugin Local",
+  "local-plugin": "Plugin Local",
+  "uninstall": "Desinstalar",
+  "install": "Instalar",
+  "downloads": "Baixar",
+  "plugin-updated": "Plugin Atualizado",
+  "plugin-update-failed": "Falha na Atualização do Plugin",
+  "plugin-connection-failed": "Falha na conexão do plugin",
+  "disconnect": "Desconectar",
+  "local-development-description": "Adicione um plug-in de desenvolvimento local e depure-o."
 }

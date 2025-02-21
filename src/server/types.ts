@@ -8,6 +8,7 @@ export type Config = NonNullable<RouterOutput['config']['list']>
 export type LinkInfo = NonNullable<RouterOutput['public']['linkPreview']>
 export type ResourceType = NonNullable<RouterOutput['attachments']['list']>[0]
 export type Comment = NonNullable<RouterOutput['comments']['list']>
+export type InstalledPluginInfo = NonNullable<RouterOutput['plugin']['getInstalledPlugins']>[0]
 export enum NoteType {
   'BLINKO',
   'NOTE'
@@ -75,7 +76,8 @@ export const ZConfigKey = z.union([
   z.literal('oauth2Providers'),
   z.literal('embeddingApiEndpoint'),
   z.literal('embeddingApiKey'),
-  ZUserPerferConfigKey
+  ZUserPerferConfigKey,
+  z.any()
 ]);
 
 export type ConfigKey = z.infer<typeof ZConfigKey>;
@@ -146,3 +148,25 @@ export const ZConfigSchema = z.object({
 
 export type GlobalConfig = z.infer<typeof ZConfigSchema>;
 
+// Zod schema for plugin information
+export const pluginInfoSchema = z.object({
+  name: z.string(),
+  author: z.string(),
+  url: z.string(),
+  version: z.string(),
+  minAppVersion: z.string(),
+  displayName: z.any(),
+  description: z.any(),
+  readme: z.any(),
+  downloads: z.number()
+});
+
+// Schema for plugin installation input (subset of PluginInfo)
+export const installPluginSchema = pluginInfoSchema.omit({ 
+  readme: true,
+  downloads: true 
+});
+
+// TypeScript types derived from the schemas
+export type PluginInfo = z.infer<typeof pluginInfoSchema>;
+export type InstallPluginInput = z.infer<typeof installPluginSchema>; 

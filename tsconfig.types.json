@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "blinko-types/dist/types",
+    "noEmit": false,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+  },
+  "include": [
+    "./src/store/plugin/index.ts",
+    "prisma/seed.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

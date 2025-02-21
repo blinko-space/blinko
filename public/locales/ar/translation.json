@@ -488,5 +488,20 @@
   "has-todo": "يجب القيام به",
   "reference-by": "بالمرجعية",
   "hide-notification": "إخفاء الإشعارات",
-  "search-settings": "إعدادات البحث..."
+  "search-settings": "إعدادات البحث...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "سيقوم هذا الإجراء بحذف الملفات المحددة ولا يمكن استعادتها، يرجى تأكيد.",
+  "plugin-settings": "إعداد الإضافة",
+  "installed-plugins": "تم التثبيت",
+  "marketplace": "السوق",
+  "local-development": "التنمية المحلية",
+  "add-local-plugin": "أضف الإضافة المحلية",
+  "local-plugin": "الإضافة المحلية",
+  "uninstall": "إلغاء التثبيت",
+  "install": "تثبيت",
+  "downloads": "تنزيلات",
+  "plugin-updated": "تم تحديث الإضافة",
+  "plugin-update-failed": "فشل تحديث الإضافة",
+  "plugin-connection-failed": "فشل الاتصال بالإضافة",
+  "disconnect": "افصل",
+  "local-development-description": "أضف إضافة تطوير محلية وقم بتصحيح الأخطاء فيها."
 }

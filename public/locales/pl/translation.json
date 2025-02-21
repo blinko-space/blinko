@@ -491,5 +491,20 @@
   "has-todo": "Do wykonania",
   "reference-by": "Odnośnik do",
   "hide-notification": "Ukryj powiadomienie",
-  "search-settings": "Ustawienia wyszukiwania..."
+  "search-settings": "Ustawienia wyszukiwania...",
+  "this-operation-will-delete-the-selected-files-and-cannot-be-restored-please-confirm": "To działanie spowoduje usunięcie wybranych plików i nie będzie możliwe ich przywrócenie. Proszę potwierdzić.",
+  "plugin-settings": "Ustawienia wtyczki",
+  "installed-plugins": "Zainstalowany",
+  "marketplace": "Rynek",
+  "local-development": "Rozwój lokalny",
+  "add-local-plugin": "Dodaj lokalny wtyczkę",
+  "local-plugin": "Lokalny dodatek",
+  "uninstall": "Odinstaluj",
+  "install": "Zainstaluj",
+  "downloads": "Pobrania",
+  "plugin-updated": "Wtyczka zaktualizowana",
+  "plugin-update-failed": "Aktualizacja wtyczki nie powiodła się",
+  "plugin-connection-failed": "Wtyczka nieudane połączenie",
+  "disconnect": "Rozłączać",
+  "local-development-description": "Dodaj wtyczkę do lokalnego środowiska programistycznego i ją zdebuguj."
 }

@@ -18,6 +18,7 @@ import { JSX } from "react";
 import { ScrollableTabs, TabItem } from "@/components/Common/ScrollableTabs";
 import { useState } from "react";
 import { BlinkoStore } from "@/store/blinkoStore";
+import { PluginSetting } from "@/components/BlinkoSettings/PluginSetting";
 
 type SettingItem = {
   key: string;
@@ -70,7 +71,7 @@ const Page = observer(() => {
     {
       key: "ai",
       title: 'AI',
-      icon: "tabler:brain",
+      icon: "mingcute:ai-line",
       component: <AiSetting />,
       requireAdmin: true,
       keywords: ['ai', 'artificial intelligence', '人工智能']
@@ -122,6 +123,14 @@ const Page = observer(() => {
       component: <ExportSetting />,
       requireAdmin: false,
       keywords: ['export', 'data', '导出', '数据导出']
+    },
+    {
+      key: "plugin",
+      title: t('plugin-settings'),
+      icon: "mingcute:plugin-line",
+      component: <PluginSetting />,
+      requireAdmin: true,
+      keywords: ['plugin', 'plugins', '插件', '插件设置']
     },
     {
       key: "about",

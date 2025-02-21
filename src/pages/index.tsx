@@ -34,6 +34,7 @@ const Home = observer(() => {
         maxWidth: blinko.config.value?.maxHomePageWidth ? `${blinko.config.value?.maxHomePageWidth}px` : '100%'
       }}
       className={`md:p-0 relative h-full flex flex-col-reverse md:flex-col mx-auto`}>
+
       {store.showEditor && isPc && <div className='px-2 md:px-6' >
         <BlinkoEditor mode='create' key='create-key' onHeightChange={height => {
           if (!isPc) return

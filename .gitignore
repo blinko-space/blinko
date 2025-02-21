@@ -20,5 +20,6 @@ public/assets
 .blinko/*
 dump.sql
 public/sw*
+public/plugins/*
 public/workbox*.*
 seed.js

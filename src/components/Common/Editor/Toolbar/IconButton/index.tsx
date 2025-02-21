@@ -17,7 +17,11 @@ export const IconButton = observer(({ tooltip, icon, onClick, classNames, childr
     <motion.div whileTap={{ y: 1 }} className={`p-[2px] hover:bg-hover cursor-pointer rounded-md flex items-center justify-center ${classNames?.base}`} onClick={e => {
       onClick?.(e)
     }}>
-      <Icon icon={icon} className={classNames?.icon} width="20" height="20" />
+      {typeof icon === 'string' && icon.includes('svg') ? (
+        <div dangerouslySetInnerHTML={{ __html: icon }} className={`w-[24px] h-[24px] flex items-center justify-center p-1 ${classNames?.icon}`} />
+      ) : (
+        <Icon icon={icon} className={classNames?.icon} width="20" height="20" />
+      )}
       {children}
     </motion.div>
   </Tooltip>

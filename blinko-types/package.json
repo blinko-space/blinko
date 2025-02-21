@@ -1,0 +1,24 @@
+{
+  "name": "blinko",
+  "access": "public",
+  "version": "0.0.11",
+  "description": "TypeScript type definitions for Blinko",
+  "private": false,
+  "types": "dist/types/src/store/plugin/index.d.ts",
+  "files": [
+    "dist/types"
+  ],
+  "scripts": {
+    "build": "cd .. && pnpm run build:types"
+  },
+  "keywords": [
+    "typescript",
+    "types",
+    "blinko"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blinko-space/blinko.git"
+  },
+  "license": "MIT"
+} 
