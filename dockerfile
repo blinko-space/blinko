@@ -53,7 +53,7 @@ COPY --from=builder /app/node_modules/@libsql/linux-arm64-gnu ./node_modules/@li
 
 ENV NODE_ENV=production \
     PORT=1111 \
-    HOST=0.0.0.0
+    HOSTNAME=0.0.0.0
 
 EXPOSE 1111
 
