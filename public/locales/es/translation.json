@@ -397,6 +397,7 @@
   "share-link-expired": "Enlace compartido caducado",
   "share-link-expired-desc": "¡Esta compartición ha caducado, por favor contacta al administrador para volver a compartir!",
   "shared": "Compartido",
+  "internal-shared": "Compartido internamente",
   "edited": "Editado",
   "move-down": "Mover hacia abajo",
   "provider-id": "ID del proveedor",

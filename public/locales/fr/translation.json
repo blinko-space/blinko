@@ -401,6 +401,7 @@
   "share-link-expired": "Lien partagé expiré",
   "share-link-expired-desc": "Cette part a expiré, veuillez contacter l'administrateur pour la re-partager !",
   "shared": "Partagé",
+  "internal-shared": "Partagé en interne",
   "edited": "Modifié",
   "move-down": "Descendre",
   "provider-id": "Identifiant du fournisseur",

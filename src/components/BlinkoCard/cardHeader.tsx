@@ -47,12 +47,27 @@ export const CardHeader = ({ blinkoItem, blinko, isShareMode, isExpanded, accoun
 
         {blinkoItem.isShare && !isShareMode && (
           <Tooltip content={t('shared')}>
-            <Icon
-              className="cursor-pointer "
-              icon="prime:eye"
-              width={iconSize}
-              height={iconSize}
-            />
+            <div className="flex items-center gap-2">
+              <Icon
+                className="cursor-pointer "
+                icon="prime:eye"
+                width={iconSize}
+                height={iconSize}
+              />
+            </div>
+          </Tooltip>
+        )}
+
+        {blinkoItem.isInternalShared && (
+          <Tooltip content={t('internal-shared')}>
+            <div className="flex items-center gap-2">
+              <Icon
+                className="cursor-pointer "
+                icon="prime:users"
+                width={iconSize}
+                height={iconSize}
+              />
+            </div>
           </Tooltip>
         )}
 
@@ -79,9 +94,11 @@ export const CardHeader = ({ blinkoItem, blinko, isShareMode, isExpanded, accoun
 
         {isShareMode && (
           <Tooltip content="RSS">
-            <Icon onClick={e => {
-              window.open(window.location.origin + `/api/rss/${blinkoItem.accountId}/atom?row=20`)
-            }} icon="mingcute:rss-2-fill" className='opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 ml-2 cursor-pointer hover:text-primary' width="16" height="16" />
+            <div className="flex items-center gap-2">
+              <Icon onClick={e => {
+                window.open(window.location.origin + `/api/rss/${blinkoItem.accountId}/atom?row=20`)
+              }} icon="mingcute:rss-2-fill" className='opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 ml-2 cursor-pointer hover:text-primary' width="16" height="16" />
+            </div>
           </Tooltip>
         )}
 
@@ -122,30 +139,32 @@ const ShareButton = observer(({ blinkoItem, isIOSDevice }: { blinkoItem: Note, i
   const blinko = RootStore.Get(BlinkoStore);
   return (
     <Tooltip content={t('share')}>
-      <Icon
-        icon="tabler:share-2"
-        width="16"
-        height="16"
-        className={`cursor-pointer text-desc ml-2 ${isIOSDevice
-          ? 'opacity-100'
-          : 'opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 translate-x-1'
-          }`}
-        onClick={async (e) => {
-          e.stopPropagation()
-          blinko.curSelectedNote = _.cloneDeep(blinkoItem)
-          RootStore.Get(DialogStore).setData({
-            isOpen: true,
-            size: 'md',
-            title: t('share'),
-            content: <BlinkoShareDialog defaultSettings={{
-              shareUrl: blinkoItem.shareEncryptedUrl ? window.location.origin + '/share/' + blinkoItem.shareEncryptedUrl : undefined,
-              expiryDate: blinkoItem.shareExpiryDate ?? undefined,
-              password: blinkoItem.sharePassword ?? '',
-              isShare: blinkoItem.isShare
-            }} />
-          })
-        }}
-      />
+      <div className="flex items-center gap-2">
+        <Icon
+          icon="tabler:share-2"
+          width="16"
+          height="16"
+          className={`cursor-pointer text-desc ml-2 ${isIOSDevice
+            ? 'opacity-100'
+            : 'opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 translate-x-1'
+            }`}
+          onClick={async (e) => {
+            e.stopPropagation()
+            blinko.curSelectedNote = _.cloneDeep(blinkoItem)
+            RootStore.Get(DialogStore).setData({
+              isOpen: true,
+              size: 'md',
+              title: t('share'),
+              content: <BlinkoShareDialog defaultSettings={{
+                shareUrl: blinkoItem.shareEncryptedUrl ? window.location.origin + '/share/' + blinkoItem.shareEncryptedUrl : undefined,
+                expiryDate: blinkoItem.shareExpiryDate ?? undefined,
+                password: blinkoItem.sharePassword ?? '',
+                isShare: blinkoItem.isShare
+              }} />
+            })
+          }}
+        />
+      </div>
     </Tooltip>
   );
 });

@@ -379,6 +379,7 @@
   "share-link-expired": "共有リンクの期限切れ",
   "share-link-expired-desc": "この共有は期限切れです。再共有するには管理者に連絡してください！",
   "shared": "共有",
+  "internal-shared": "内部共有",
   "edited": "編集されました",
   "move-down": "下に移動",
   "provider-id": "プロバイダーID",

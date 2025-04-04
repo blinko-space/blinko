@@ -422,6 +422,7 @@
   "share-link-expired": "Paylaşım Bağlantısı Süresi Doldu",
   "share-link-expired-desc": "Bu paylaşımın süresi doldu, lütfen yeniden paylaşım için yöneticiyle iletişime geçin!",
   "shared": "Paylaşıldı",
+  "internal-shared": "Dahili Paylaşıldı",
   "edited": "Düzenlendi",
   "move-down": "Aşağı Taşı",
   "provider-id": "Sağlayıcı Kimliği",

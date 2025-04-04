@@ -402,6 +402,7 @@
   "share-link-expired": "공유 링크가 만료되었습니다.",
   "share-link-expired-desc": "이 공유가 만료되었습니다. 다시 공유하려면 관리자에게 문의하세요!",
   "shared": "공유",
+  "internal-shared": "내부 공유",
   "edited": "편집된",
   "move-down": "이동하다",
   "provider-id": "제공자 ID",

@@ -96,6 +96,7 @@ export const noteRouter = router({
             }).nullable().optional(),
             isSharedNote: z.boolean().optional(),
             canEdit: z.boolean().optional(),
+            isInternalShared: z.boolean().optional(),
           }),
         ),
       ),
@@ -179,7 +180,7 @@ export const noteRouter = router({
       const config = await getGlobalConfig({ ctx });
       let timeOrderBy = config?.isOrderByCreateTime ? { createdAt: orderBy } : { updatedAt: orderBy };
 
-      return await prisma.notes.findMany({
+      const notes = await prisma.notes.findMany({
         where,
         orderBy: [{ isTop: 'desc' }, timeOrderBy],
         skip: (page - 1) * size,
@@ -219,8 +220,14 @@ export const noteRouter = router({
               histories: true,
             },
           },
+          internalShares: true, 
         },
       });
+
+      return notes.map((note) => ({
+        ...note,
+        isInternalShared: note.internalShares.length > 0,
+      }));
     }),
   publicList: publicProcedure
     .meta({

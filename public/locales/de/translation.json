@@ -405,6 +405,7 @@
   "share-link-expired": "Freigabelink abgelaufen",
   "share-link-expired-desc": "Dieser Link ist abgelaufen. Bitte wenden Sie sich an den Administrator, um ihn erneut freizugeben!",
   "shared": "Geteilt",
+  "internal-shared": "Intern geteilt",
   "edited": "Bearbeitet",
   "move-down": "Nach unten bewegen",
   "provider-id": "Anbieter-ID",

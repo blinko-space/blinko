@@ -26,7 +26,9 @@ export const HistoryButton = observer(({ noteId, className = '' }: HistoryButton
 
   return (
     <Tooltip content={t('View History Versions')}>
-      <Icon className={className} onClick={handleOpenHistory} icon="lucide:history" width="16" height="16" />
+      <div className="flex items-center gap-2">
+        <Icon className={className} onClick={handleOpenHistory} icon="lucide:history" width="16" height="16" />
+      </div>
     </Tooltip>
   );
 });
